@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { Trash2, MapPin, CheckCircle, Clock, Upload, Loader, Calendar, Weight, Search } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import Button from '@/components/ui/Button'
 import { Input } from '@/components/ui/input'
 import { toast } from 'react-hot-toast'
 import { getWasteCollectionTasks, updateTaskStatus, saveReward, saveCollectedWaste, getUserByEmail } from '@/utils/db/actions'
@@ -14,7 +14,7 @@ type CollectionTask = {
   id: number
   location: string
   wasteType: string
-  amount: string
+  description: string
   status: 'pending' | 'in_progress' | 'completed' | 'verified'
   date: string
   collectorId: number | null
@@ -137,7 +137,7 @@ export default function CollectPage() {
 
       const prompt = `You are an expert in waste management and recycling. Analyze this image and provide:
         1. Confirm if the waste type matches: ${selectedTask.wasteType}
-        2. Estimate if the quantity matches: ${selectedTask.amount}
+        2. Estimate if the quantity matches: ${selectedTask.description}
         3. Your confidence level in this assessment (as a percentage)
         
         Respond in JSON format like this:
@@ -214,7 +214,7 @@ export default function CollectPage() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="mr-2"
         />
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="sm">
           <Search className="h-4 w-4" />
         </Button>
       </div>
@@ -253,7 +253,7 @@ export default function CollectPage() {
                   </div>
                   <div className="flex items-center">
                     <Weight className="w-4 h-4 mr-2 text-gray-500" />
-                    {task.amount}
+                    {task.description}
                   </div>
                   <div className="flex items-center">
                     <Calendar className="w-4 h-4 mr-2 text-gray-500" />

@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { Upload, CheckCircle, XCircle, Loader } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import Button from '@/components/ui/Button'
 
 export default function VerifyWastePage() {
   const [file, setFile] = useState<File | null>(null)

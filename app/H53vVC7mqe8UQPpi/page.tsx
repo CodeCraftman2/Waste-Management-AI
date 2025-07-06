@@ -1,7 +1,7 @@
 'use client'
 import { useState, useCallback, useEffect } from 'react'
 import {  MapPin, Upload, CheckCircle, Loader } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import Button from '@/components/ui/Button'
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { StandaloneSearchBox,  useJsApiLoader } from '@react-google-maps/api'
 import { Libraries } from '@react-google-maps/api';
@@ -22,7 +22,7 @@ export default function ReportPage() {
     id: number;
     location: string;
     wasteType: string;
-    amount: string;
+    description: string;
     createdAt: string;
   }>>([]);
 
@@ -175,7 +175,7 @@ export default function ReportPage() {
         id: report.id,
         location: report.location,
         wasteType: report.wasteType,
-        amount: report.amount,
+        description: report.description,
         createdAt: report.createdAt.toISOString().split('T')[0]
       };
       
@@ -377,7 +377,7 @@ export default function ReportPage() {
                     {report.location}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.wasteType}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.amount}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.description}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.createdAt}</td>
                 </tr>
               ))}

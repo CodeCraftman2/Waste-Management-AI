@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { User, Bell, Shield, Palette, Globe, Save, Eye, EyeOff, Loader2 } from 'lucide-react';
 import Layout from '../../components/Layout';
@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 import { useWeb3Auth } from '../../components/Web3AuthProvider';
 import { toast } from 'react-hot-toast';
 
-export default function Settings() {
+function SettingsContent() {
   const { userInfo, loggedIn } = useWeb3Auth();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -611,5 +611,20 @@ export default function Settings() {
         </motion.div>
       </div>
     </Layout>
+  );
+}
+
+export default function Settings() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+          <p>Loading settings...</p>
+        </div>
+      </div>
+    }>
+      <SettingsContent />
+    </Suspense>
   );
 }
