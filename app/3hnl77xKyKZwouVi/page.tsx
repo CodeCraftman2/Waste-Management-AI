@@ -4,7 +4,7 @@ import { Coins, ArrowUpRight, ArrowDownRight, Gift, AlertCircle, Loader } from '
 import Button from '@/components/ui/Button'
 import { getRewardTransactions, getAvailableRewards, redeemReward, createTransaction } from '@/utils/db/actions'
 import { toast } from 'react-hot-toast'
-import ProtectedRoute from '@/components/ProtectedRoute'
+// import ProtectedRoute from '@/components/ProtectedRoute'
 import { useWeb3Auth } from '@/components/Web3AuthProvider'
 import Layout from '@/components/Layout'
 
@@ -133,20 +133,17 @@ export default function RewardsPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute>
-        <Layout>
-          <div className="flex justify-center items-center h-64">
-            <Loader className="animate-spin h-8 w-8 text-gray-600" />
-          </div>
-        </Layout>
-      </ProtectedRoute>
+      <Layout>
+        <div className="flex justify-center items-center h-64">
+          <Loader className="animate-spin h-8 w-8 text-gray-600" />
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <ProtectedRoute>
-      <Layout>
-        <div className="p-8 max-w-4xl mx-auto">
+    <Layout>
+      <div className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold mb-6 text-gray-800">Rewards</h1>
       
       <div className="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between h-full border-l-4 border-green-500 mb-8">
@@ -239,7 +236,7 @@ export default function RewardsPage() {
           </div>
         </div>
       </div>
-        </Layout>
-    </ProtectedRoute>
+      </div>
+    </Layout>
   )
 }
