@@ -1,0 +1,193 @@
+"use client"
+
+import React, { useState } from 'react';
+import { useWeb3Auth } from '@/components/Web3AuthProvider';
+import Button from '@/components/ui/Button';
+import { getUserSettings, updateUserSettings } from '@/utils/db/actions';
+import { toast } from 'react-hot-toast';
+
+export default function TestSettingsPage() {
+  const { userInfo, loggedIn } = useWeb3Auth();
+  const [testResult, setTestResult] = useState<string>('');
+  const [isTesting, setIsTesting] = useState(false);
+
+  const testSettingsLoad = async () => {
+    if (!userInfo?.id) {
+      setTestResult('❌ No user ID available');
+      return;
+    }
+
+    setIsTesting(true);
+    setTestResult('');
+    
+    try {
+      const settings = await getUserSettings(userInfo.id);
+      if (settings) {
+        setTestResult(`✅ Settings loaded successfully!\n\nSettings: ${JSON.stringify(settings, null, 2)}`);
+      } else {
+        setTestResult('❌ No settings found for user');
+      }
+    } catch (error) {
+      setTestResult(`❌ Settings load failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsTesting(false);
+    }
+  };
+
+  const testSettingsUpdate = async () => {
+    if (!userInfo?.id) {
+      setTestResult('❌ No user ID available');
+      return;
+    }
+
+    setIsTesting(true);
+    setTestResult('');
+    
+    try {
+      const testSettings = {
+        emailNotifications: true,
+        pushNotifications: false,
+        reportNotifications: true,
+        collectionNotifications: false,
+        leaderboardNotifications: true,
+        profileVisible: true,
+        showLocation: false,
+        showStats: true,
+        bio: 'Test bio updated',
+        location: 'Test Location'
+      };
+
+      const result = await updateUserSettings(userInfo.id, testSettings);
+      if (result) {
+        setTestResult(`✅ Settings updated successfully!\n\nUpdated settings: ${JSON.stringify(result, null, 2)}`);
+      } else {
+        setTestResult('❌ Settings update failed - no result returned');
+      }
+    } catch (error) {
+      setTestResult(`❌ Settings update failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsTesting(false);
+    }
+  };
+
+  const testApiRoute = async () => {
+    if (!userInfo?.id) {
+      setTestResult('❌ No user ID available');
+      return;
+    }
+
+    setIsTesting(true);
+    setTestResult('');
+    
+    try {
+      // Test GET request
+      const getResponse = await fetch(`/api/settings?userId=${userInfo.id}`);
+      const getData = await getResponse.json();
+      
+      if (getResponse.ok) {
+        setTestResult(`✅ GET API route working!\n\nSettings: ${JSON.stringify(getData, null, 2)}`);
+      } else {
+        setTestResult(`❌ GET API route failed: ${getData.error}`);
+      }
+    } catch (error) {
+      setTestResult(`❌ API route test failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsTesting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen p-6 bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+            Settings System Test
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Test settings functionality and database operations
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* User Info */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">User Information</h2>
+            <div className="space-y-2 text-sm">
+              <p><strong>Logged In:</strong> {loggedIn ? '✅ Yes' : '❌ No'}</p>
+              <p><strong>Email:</strong> {userInfo?.email || 'Not available'}</p>
+              <p><strong>Name:</strong> {userInfo?.name || 'Not available'}</p>
+              <p><strong>User ID:</strong> {userInfo?.id || 'Not available'}</p>
+            </div>
+          </div>
+
+          {/* Test Results */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">Test Results</h2>
+            <div className="space-y-4">
+              <Button
+                onClick={testSettingsLoad}
+                disabled={isTesting || !loggedIn}
+                className="w-full"
+              >
+                {isTesting ? 'Testing...' : 'Test Settings Load'}
+              </Button>
+              
+              <Button
+                onClick={testSettingsUpdate}
+                disabled={isTesting || !userInfo?.id}
+                className="w-full"
+              >
+                {isTesting ? 'Testing...' : 'Test Settings Update'}
+              </Button>
+              
+              <Button
+                onClick={testApiRoute}
+                disabled={isTesting || !userInfo?.id}
+                className="w-full"
+              >
+                {isTesting ? 'Testing...' : 'Test API Route'}
+              </Button>
+              
+              {testResult && (
+                <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                  <p className="text-sm whitespace-pre-wrap">{testResult}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Instructions */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+          <h2 className="text-xl font-semibold mb-4">Testing Instructions</h2>
+          <div className="space-y-2 text-sm">
+            <p>1. <strong>Login:</strong> Make sure you're logged in with your wallet</p>
+            <p>2. <strong>Test Settings Load:</strong> Click to verify settings can be loaded from database</p>
+            <p>3. <strong>Test Settings Update:</strong> Click to verify settings can be updated in database</p>
+            <p>4. <strong>Test API Route:</strong> Click to verify the settings API endpoint works</p>
+            <p>5. <strong>Check Results:</strong> Review the test results below each button</p>
+          </div>
+        </div>
+
+        {/* Common Issues */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+          <h2 className="text-xl font-semibold mb-4">Common Issues & Solutions</h2>
+          <div className="space-y-3 text-sm">
+            <div>
+              <p className="font-semibold">❌ "No user ID available"</p>
+              <p className="text-gray-600">Solution: Make sure you're logged in and the user was created in the database</p>
+            </div>
+            <div>
+              <p className="font-semibold">❌ "Settings not found"</p>
+              <p className="text-gray-600">Solution: This is normal for new users - settings will be created on first save</p>
+            </div>
+            <div>
+              <p className="font-semibold">❌ "API route failed"</p>
+              <p className="text-gray-600">Solution: Check database connection and API route implementation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} 
