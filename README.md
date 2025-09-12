@@ -1,6 +1,6 @@
 # ScrapAI - AI-Powered Waste Management Platform
 
-## 🌟 Features
+##  Features
 
 ### Core Functionality
 - **Complete Waste Management Workflow**: Report → Collect → Verify → Rewards → Leaderboard
@@ -30,7 +30,7 @@
 - **Neon Database**: Serverless PostgreSQL with Drizzle ORM
 - **Tailwind CSS**: Utility-first styling with custom components
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
@@ -82,7 +82,7 @@ GOOGLE_AI_API_KEY=your-google-ai-key
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your-google-maps-key
 ```
 
-## 🔄 Complete Workflow
+##  Complete Workflow
 
 ### Report → Collect → Verify → Rewards → Leaderboard
 
@@ -267,7 +267,7 @@ CREATE TABLE notifications (
 - **Transactions → Users**: Each transaction belongs to a user
 - **Rewards → Users**: Each reward belongs to a user
 
-## 🎨 Design System
+##  Design System
 
 ### Color Palette
 
@@ -304,7 +304,7 @@ Built with shadcn/ui components:
 - Toast notifications with Sonner
 - Theme toggle with next-themes
 
-## 🔒 Authentication & Security
+##  Authentication & Security
 
 ### Web3Auth Integration
 
@@ -384,7 +384,7 @@ CMD ["node", "server.js"]
 - **Quick Actions**: Fast access to common tasks
 - **Progress Tracking**: Visual progress indicators
 
-## 🤝 Contributing
+##  Contributing
 
 ### Development Workflow
 
@@ -427,7 +427,7 @@ getUnreadNotifications(userId: number)
 markNotificationAsRead(notificationId: number)
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -456,11 +456,11 @@ DEBUG=* npm run dev
 npm run dev -- --verbose
 ```
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - **Web3Auth**: For blockchain authentication
 - **shadcn/ui**: For beautiful UI components
@@ -468,13 +468,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Framer Motion**: For smooth animations
 - **Tailwind CSS**: For utility-first styling
 
-## 📞 Support
+##  Support
 
 - **Documentation**: [docs.ScrapAI.app](https://docs.ScrapAI.app)
 - **Issues**: [GitHub Issues](https://github.com/your-org/ScrapAI/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/your-org/ScrapAI/discussions)
 - **Email**: support@ScrapAI.app
-
----
-
-Built with ❤️ by Y&D for a sustainable future 🌍
